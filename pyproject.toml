@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jev-arb"
+version = "0.1.0"
+description = "Read-only crypto arbitrage research and paper-trading experiment comparing deterministic rules with Jev."
+requires-python = ">=3.11"
+dependencies = [
+  "websockets>=12.0",
+]
+
+[project.scripts]
+jev-arb = "jev_arb.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["jev_arb*"]
+
+

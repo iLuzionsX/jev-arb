@@ -1,0 +1,11 @@
+{"type":"book","ts_ms":1700000000000,"venue":"coinbase","symbol":"BTC-USD","quote":"USD","sequence":1,"book":{"bids":[[99900,0.02],[99800,0.02]],"asks":[[100000,0.02],[100100,0.02]]}}
+{"type":"book","ts_ms":1700000000000,"venue":"kraken","symbol":"BTC-USD","quote":"USD","sequence":1,"book":{"bids":[[102000,0.02],[101900,0.02]],"asks":[[102100,0.02],[102200,0.02]]}}
+{"type":"book","ts_ms":1700000000100,"venue":"coinbase","symbol":"BTC-USD","quote":"USD","sequence":2,"book":{"bids":[[99900,0.02],[99800,0.02]],"asks":[[100050,0.02],[100150,0.02]]}}
+{"type":"book","ts_ms":1700000000100,"venue":"kraken","symbol":"BTC-USD","quote":"USD","sequence":2,"book":{"bids":[[101980,0.02],[101900,0.02]],"asks":[[102100,0.02],[102200,0.02]]}}
+{"type":"book","ts_ms":1700000000200,"venue":"coinbase","symbol":"BTC-USD","quote":"USD","sequence":3,"book":{"bids":[[101850,0.02],[101750,0.02]],"asks":[[101900,0.02],[102000,0.02]]}}
+{"type":"book","ts_ms":1700000000200,"venue":"kraken","symbol":"BTC-USD","quote":"USD","sequence":3,"book":{"bids":[[101820,0.02],[101700,0.02]],"asks":[[101900,0.02],[102000,0.02]]}}
+{"type":"book","ts_ms":1700000000300,"venue":"coinbase","symbol":"BTC-USD","quote":"USD","sequence":4,"book":{"bids":[[100000,0.02],[99900,0.02]],"asks":[[100050,0.02],[100150,0.02]]}}
+{"type":"book","ts_ms":1700000000300,"venue":"kraken","symbol":"BTC-USD","quote":"USD","sequence":4,"book":{"bids":[[102100,0.02],[102000,0.02]],"asks":[[102200,0.02],[102300,0.02]]}}
+{"type":"book","ts_ms":1700000000400,"venue":"coinbase","symbol":"BTC-USD","quote":"USD","sequence":5,"book":{"bids":[[100050,0.02],[99950,0.02]],"asks":[[100100,0.02],[100200,0.02]]}}
+{"type":"book","ts_ms":1700000000400,"venue":"kraken","symbol":"BTC-USD","quote":"USD","sequence":5,"book":{"bids":[[102150,0.02],[102050,0.02]],"asks":[[102250,0.02],[102350,0.02]]}}
+
