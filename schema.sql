@@ -57,7 +57,9 @@ CREATE TABLE IF NOT EXISTS decisions (
     decision TEXT NOT NULL,
     reason TEXT NOT NULL,
     accepted INTEGER NOT NULL,
+    request_at_ms INTEGER NOT NULL,
     decision_at_ms INTEGER NOT NULL,
+    response_at_ms INTEGER NOT NULL,
     latency_ms REAL NOT NULL,
     confidence REAL,
     input_json TEXT NOT NULL,
@@ -109,5 +111,4 @@ CREATE TABLE IF NOT EXISTS inventory_snapshots (
     inventory_json TEXT NOT NULL,
     FOREIGN KEY(run_id) REFERENCES experiment_runs(run_id)
 );
-
 

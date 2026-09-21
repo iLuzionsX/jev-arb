@@ -31,7 +31,15 @@ class Database:
         schema = schema_path.read_text() if schema_path.exists() else _fallback_schema()
         with self._lock:
             self.conn.executescript(schema)
+            self._migrate_schema()
             self.conn.commit()
+
+    def _migrate_schema(self) -> None:
+        columns = {row[1] for row in self.conn.execute("PRAGMA table_info(decisions)").fetchall()}
+        if "request_at_ms" not in columns:
+            self.conn.execute("ALTER TABLE decisions ADD COLUMN request_at_ms INTEGER")
+        if "response_at_ms" not in columns:
+            self.conn.execute("ALTER TABLE decisions ADD COLUMN response_at_ms INTEGER")
 
     def close(self) -> None:
         with self._lock:
@@ -108,10 +116,12 @@ class Database:
         with self._lock:
             self.conn.execute(
                 """INSERT OR REPLACE INTO decisions(decision_id,candidate_id,strategy,decision,reason,accepted,
-                   decision_at_ms,latency_ms,confidence,input_json,output_json) VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
+                   request_at_ms,decision_at_ms,response_at_ms,latency_ms,confidence,input_json,output_json)
+                   VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     decision.decision_id, decision.candidate_id, decision.strategy, decision.decision,
-                    decision.reason, int(decision.accepted), decision.decision_at_ms, decision.latency_ms,
+                    decision.reason, int(decision.accepted), decision.request_at_ms, decision.decision_at_ms,
+                    decision.decision_at_ms, decision.latency_ms,
                     decision.confidence, stable_json(decision.input_state), stable_json(decision.output),
                 ),
             )
@@ -189,7 +199,8 @@ class Database:
             {
                 "decision_id": row["decision_id"], "candidate_id": candidate_id, "strategy": row["strategy"],
                 "decision": row["decision"], "reason": row["reason"], "accepted": bool(row["accepted"]),
-                "decision_at_ms": row["decision_at_ms"], "latency_ms": row["latency_ms"],
+                "request_at_ms": row["request_at_ms"], "decision_at_ms": row["decision_at_ms"],
+                "response_at_ms": row["response_at_ms"] or row["decision_at_ms"], "latency_ms": row["latency_ms"],
                 "confidence": row["confidence"], "input": json.loads(row["input_json"]),
                 "output": json.loads(row["output_json"]),
             }

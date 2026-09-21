@@ -25,6 +25,7 @@ class OrderBook:
     exchange_ts_ms: int | None = None
     sequence: int | None = None
     snapshot_ready: bool = False
+    gap_detected: bool = False
     last_event_id: str | None = None
 
     def apply(self, event: BookEvent) -> bool:
@@ -32,6 +33,7 @@ class OrderBook:
             self.bids = {float(p): float(q) for p, q in event.bids if float(q) > 0}
             self.asks = {float(p): float(q) for p, q in event.asks if float(q) > 0}
             self.snapshot_ready = True
+            self.gap_detected = False
         else:
             for price, quantity in event.bids:
                 _set_level(self.bids, float(price), float(quantity))
@@ -88,6 +90,7 @@ class OrderBook:
             "exchange_ts_ms": self.exchange_ts_ms,
             "sequence": self.sequence,
             "snapshot_ready": self.snapshot_ready,
+            "gap_detected": self.gap_detected,
             "bids": [[level.price, level.quantity] for level in self.bid_levels(depth)],
             "asks": [[level.price, level.quantity] for level in self.ask_levels(depth)],
         }
@@ -101,6 +104,7 @@ class OrderBook:
         book.exchange_ts_ms = data.get("exchange_ts_ms")
         book.sequence = data.get("sequence")
         book.snapshot_ready = bool(data.get("snapshot_ready", True))
+        book.gap_detected = bool(data.get("gap_detected", False))
         return book
 
 
@@ -173,6 +177,7 @@ class BookStore:
                     # The connector will reconnect/reset; do not silently call
                     # a gap-composed book valid.
                     book.snapshot_ready = False
+                    book.gap_detected = True
             book.apply(event)
             if event.event_id:
                 self._last_event_ids.add(event.event_id)

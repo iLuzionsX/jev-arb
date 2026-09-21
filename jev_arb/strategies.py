@@ -52,6 +52,7 @@ class DeterministicStrategy:
 
     async def evaluate(self, candidate: Opportunity, portfolio: InventoryBook) -> Decision:
         started = time.perf_counter()
+        request_at = now_ms()
         gates = common_safety_gate(candidate, portfolio, self.config)
         decision = "EXECUTE" if gates.ok else "SKIP"
         reason = "deterministic_all_gates_passed" if gates.ok else ";".join(gates.reasons)
@@ -61,6 +62,7 @@ class DeterministicStrategy:
             decision=decision,
             reason=reason,
             accepted=gates.ok,
+            request_at_ms=request_at,
             decision_at_ms=now_ms(),
             latency_ms=(time.perf_counter() - started) * 1000.0,
             confidence=None,
@@ -78,6 +80,7 @@ class JevAssistedStrategy:
 
     async def evaluate(self, candidate: Opportunity, portfolio: InventoryBook) -> Decision:
         started = time.perf_counter()
+        request_at = now_ms()
         gates = common_safety_gate(candidate, portfolio, self.config)
         output: dict[str, Any]
         try:
@@ -90,6 +93,7 @@ class JevAssistedStrategy:
                 decision="SKIP",
                 reason=f"jev_fail_closed:{type(exc).__name__}:{exc}",
                 accepted=False,
+                request_at_ms=request_at,
                 decision_at_ms=now_ms(),
                 latency_ms=latency,
                 confidence=None,
@@ -118,11 +122,11 @@ class JevAssistedStrategy:
             decision="EXECUTE" if accepted else "SKIP",
             reason="jev_and_safety_gates_passed" if accepted else ";".join(jev_reasons),
             accepted=accepted,
+            request_at_ms=request_at,
             decision_at_ms=now_ms(),
             latency_ms=(time.perf_counter() - started) * 1000.0,
             confidence=float(confidence) if confidence is not None else None,
             input_state=candidate.jev_state(),
             output={**output, "hard_gate_reasons": gates.reasons},
         )
-
 

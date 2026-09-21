@@ -118,6 +118,7 @@ class Decision:
     decision: str = "SKIP"
     reason: str = ""
     accepted: bool = False
+    request_at_ms: int = 0
     decision_at_ms: int = field(default_factory=now_ms)
     latency_ms: float = 0.0
     confidence: float | None = None
@@ -167,5 +168,4 @@ class TradeResult:
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
         return data
-
 

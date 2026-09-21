@@ -131,6 +131,7 @@ class ExperimentRuntime:
         strategy = self.baseline_strategy if strategy_name == "baseline" else self.jev_strategy
         decision = await strategy.evaluate(candidate, portfolio)
         if replay:
+            decision.request_at_ms = candidate.detected_at_ms
             decision.decision_at_ms = candidate.detected_at_ms + int(max(0.0, decision.latency_ms))
         self.db.record_decision(decision)
         exchange_latency = max(candidate.buy_latency_ms, candidate.sell_latency_ms)

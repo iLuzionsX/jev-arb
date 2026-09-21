@@ -35,10 +35,14 @@ class CoreTests(unittest.TestCase):
         books.apply_event(BookEvent("coinbase", "BTC-USD", "snapshot", [(99, 2)], [(101, 2)], 1000, sequence=10, event_id="a"), "USD")
         books.apply_event(BookEvent("coinbase", "BTC-USD", "delta", [(100, 1)], [], 1001, sequence=11, event_id="b"), "USD")
         books.apply_event(BookEvent("coinbase", "BTC-USD", "delta", [(98, 1)], [], 1002, sequence=9, event_id="c"), "USD")
+        books.apply_event(BookEvent("coinbase", "BTC-USD", "delta", [(97, 1)], [], 1003, sequence=13, event_id="d"), "USD")
         book = books.get("coinbase", "BTC-USD")
         self.assertIsNotNone(book)
         self.assertEqual(book.best_bid().price, 100)
-        self.assertEqual(book.sequence, 11)
+        self.assertEqual(book.sequence, 13)
+        self.assertTrue(book.gap_detected)
+        books.apply_event(BookEvent("coinbase", "BTC-USD", "snapshot", [(99, 2)], [(101, 2)], 1004, sequence=14, event_id="e"), "USD")
+        self.assertFalse(books.get("coinbase", "BTC-USD").gap_detected)
 
     def test_candidate_uses_depth_and_after_cost_math(self):
         config = AppConfig()

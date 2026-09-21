@@ -161,6 +161,7 @@ def parse_typesafe_response(body: dict, headers: dict[str, str] | None = None) -
         raise ValueError("Jev returned an invalid persistence decision")
     return {
         "model": body.get("model"),
+        "raw_response": body,
         "request_id": (headers or {}).get("x-typesafe-request-id"),
         "usage": body.get("usage", {}),
         "execution_decision": decision["choice"],
@@ -234,5 +235,4 @@ class FailClosedJevProvider:
     async def decide(self, candidate: Opportunity) -> dict[str, Any]:
         _ = candidate
         raise JevUnavailable("Jev provider disabled; paper strategy must skip")
-
 

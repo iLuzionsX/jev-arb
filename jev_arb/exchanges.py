@@ -63,6 +63,9 @@ class BaseConnector:
             result = self.on_event(event, self._quote_for(event.symbol))
             if asyncio.iscoroutine(result):
                 await result
+        book = self.books.get(self.venue, event.symbol)
+        if book and book.gap_detected:
+            raise RuntimeError(f"sequence gap detected for {self.venue}/{event.symbol}; reconnecting for a fresh snapshot")
         await self._set_health(True, None)
 
     async def _set_health(self, connected: bool, error: str | None) -> None:
