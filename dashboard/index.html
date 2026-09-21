@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JEV-ARB Research Console</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">JEV-ARB / PHASE 1</div>
+      <h1>Arbitrage research console</h1>
+    </div>
+    <div class="paper-badge">PAPER TRADING — NO REAL ORDERS</div>
+  </header>
+
+  <main>
+    <section class="status-strip" id="status-strip">
+      <span class="status-dot"></span><span id="run-status">Loading run status…</span>
+      <span class="status-note">Public market data only · simulated inventory · fail-closed Jev</span>
+    </section>
+
+    <section class="metric-grid" id="market-metrics"></section>
+
+    <section class="section-heading">
+      <div>
+        <div class="eyebrow">PAIRED EXPERIMENT</div>
+        <h2>Baseline vs Jev</h2>
+      </div>
+      <div class="updated" id="updated-at">—</div>
+    </section>
+    <section class="strategy-grid" id="strategy-cards"></section>
+
+    <section class="panel chart-panel">
+      <div class="panel-heading"><h2>Cumulative simulated P&amp;L</h2><span>accepted paper fills only</span></div>
+      <canvas id="pnl-chart" height="220"></canvas>
+    </section>
+
+    <section class="two-column">
+      <section class="panel">
+        <div class="panel-heading"><h2>Live book health</h2><span>normalized L2 state</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Venue</th><th>Symbol</th><th>Bid</th><th>Ask</th><th>Age</th><th>Seq</th></tr></thead><tbody id="book-table"></tbody></table></div>
+      </section>
+      <section class="panel">
+        <div class="panel-heading"><h2>Jev latency</h2><span>decision path</span></div>
+        <div class="latency-block" id="latency-block"></div>
+        <div class="confidence-list" id="confidence-list"></div>
+      </section>
+    </section>
+
+    <section class="panel opportunity-panel">
+      <div class="panel-heading"><h2>Opportunity feed</h2><span>same candidate stream, independent ledgers</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Time</th><th>Pair</th><th>Route</th><th>Gross</th><th>Net</th><th>Baseline</th><th>Jev</th><th>Paper result</th></tr></thead><tbody id="candidate-table"></tbody></table></div>
+    </section>
+
+    <section class="section-heading lower-heading"><div><div class="eyebrow">RESEARCH NOTE</div><h2>Evidence, not a claim</h2></div></section>
+    <section class="panel note-panel" id="evidence-note"></section>
+  </main>
+
+  <footer>JEV-ARB · read-only public feeds · no exchange credentials · Phase 1</footer>
+  <script src="/app.js"></script>
+</body>
+</html>
+
+
